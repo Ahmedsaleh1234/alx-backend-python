@@ -9,14 +9,16 @@ def stream_users_in_batches(batch_size):
     cursor = connect.cursor()
     sql = 'SELECT * FROM user_data'
     cursor.execute(sql)
-    
-    batch = []
-    for _ in range(batch_size):
-        row = cursor.fetchone()
-        if not row:
+    while True:
+        batch = []
+        for _ in range(batch_size):
+            row = cursor.fetchone()
+            if not row:
+                break
+            batch.append(row)
+        if not batch:
             break
-        batch.append(row)
-    yield batch
+        yield batch
 def batch_processing(batch_size):
     for  batch in stream_users_in_batches(batch_size):
         for user in batch:
