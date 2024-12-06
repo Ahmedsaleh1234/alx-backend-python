@@ -24,5 +24,6 @@ def batch_processing(batch_size):
         for user in batch:
             if user[3] > 25:
                 print(user)
+    yield user
 
 
