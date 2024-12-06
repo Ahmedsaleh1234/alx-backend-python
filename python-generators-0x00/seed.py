@@ -31,12 +31,14 @@ def create_table(connection):
     Fuction to create a table in database
     """
     cursor = connection.cursor()
-    cursor.execute("""CREATE TABLE IF NOT EXISTS user_data (
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS user_data (
                    user_id VARCHAR(150) PRIMARY KEY,
                    name VARCHAR(150) NOT NULL,
                    email VARCHAR(150) NOT NULL,
                    age DECIMAL(5, 2) NOT NULL
-                   ) 
+            ) 
                    """)
     connection.commit()
     cursor.close()
