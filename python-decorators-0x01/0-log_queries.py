@@ -22,3 +22,4 @@ def fetch_all_users(query):
     conn.close()
     return results
 users = fetch_all_users(query='SELECT * FROM users')
+print(users)
