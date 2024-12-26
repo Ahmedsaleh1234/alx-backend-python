@@ -12,16 +12,21 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return f"{obj.first_name} {obj.last_name}"
 
 class MessageSerializer(serializers.ModelSerializer):
-    sender_name = serializers.CharField(source='sender.username', read_only=True)  # Example use of CharField
+    sender_name = serializers.CharField(source='sender.username', read_only=True)
 
     class Meta:
         model = Message
         fields = ['message_id', 'sender', 'sender_name', 'message_body', 'sent_at']
 
+    def validate_message_body(self, value):
+        if len(value) < 1:
+            raise serializers.ValidationError("Message body cannot be empty.")
+        return value
+
 class ConversationSerializer(serializers.ModelSerializer):
     participants = CustomUserSerializer(many=True, read_only=True)
     messages = MessageSerializer(many=True, read_only=True)
-    message_count = serializers.SerializerMethodField()  
+    message_count = serializers.SerializerMethodField()  # Example use of SerializerMethodField
 
     class Meta:
         model = Conversation
