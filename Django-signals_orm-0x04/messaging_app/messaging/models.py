@@ -10,7 +10,7 @@ class Message(models.Model):
     def __str__(self):
         return f'{self.sender} to {self.reciever}'
 
-class Notifaction(models.Model):
+class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     Message = models.ForeignKey(Message, on_delete=models.CASCADE)
     is_read = models.BooleanField(default=False)
