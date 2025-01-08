@@ -24,7 +24,8 @@ def get_replies(message):
 def threaded_message_view(request, message_id):
     message = Message.objects.select_related('sender', 'receiver').get(pk=message_id)
     replies = get_replies(message)
-    return render(request,  {'message': message, 'replies': replies})
+    sender = request.user
+    return render(sender,  {'message': message, 'replies': replies})
 
 
 
