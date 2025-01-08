@@ -17,6 +17,7 @@ class Notification(models.Model):
     Message = models.ForeignKey(Message, on_delete=models.CASCADE)
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    parent_message = models.ForeignKey('self', related_name='replies', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Notifaction for {self.user}'
