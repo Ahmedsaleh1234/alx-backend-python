@@ -30,6 +30,6 @@ def threaded_message_view(request, message_id):
     return render(request,  {'message': message, 'replies': replies})
 
 def unread_inbox_view(request):
-    unread_messages = Message.unread_messages.for_user(request.user).only('id', 'content', 'sender_id', 'created_at')
+    unread_messages = Message.unread.unread_for_user(request.user).only('id', 'content', 'sender_id', 'created_at')
 
 
