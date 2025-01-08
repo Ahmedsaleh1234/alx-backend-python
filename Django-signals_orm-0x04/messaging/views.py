@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from .models import Message
 from .managers import UnreadMessagesManager
+from django.views.decorators.cache import cache_page
 # Create your views here.
 
 def delete_user(request):
@@ -31,5 +31,11 @@ def threaded_message_view(request, message_id):
 
 def unread_inbox_view(request):
     unread_messages = Message.unread.unread_for_user(request.user).only('id', 'content', 'sender_id', 'created_at')
+
+
+@cache_page(60)
+def message_list(request):
+    messages = Message.objects.filter(parent_message__isnull=True, receiver=request.user).prefetch_related('replies').select_related('sender', 'receiver')
+    return render(request, 'messages/message_list.html', {'messages': messages})
 
 
