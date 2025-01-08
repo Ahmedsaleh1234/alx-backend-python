@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from .models import Message
+from .managers import UnreadMessagesManager
 # Create your views here.
 
 def delete_user(request):
@@ -28,5 +29,7 @@ def threaded_message_view(request, message_id):
     
     return render(request,  {'message': message, 'replies': replies})
 
+def unread_inbox_view(request):
+    unread_messages = Message.unread_messages.for_user(request.user).only('id', 'content', 'sender_id', 'created_at')
 
 
