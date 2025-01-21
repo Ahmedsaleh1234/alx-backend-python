@@ -19,5 +19,5 @@ COPY . /app/
 # Expose the port that the app runs on
 EXPOSE 8000
 
-# Run the Django app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run the Django app and map ports
+ENTRYPOINT ["sh", "-c", "python manage.py runserver 0.0.0.0:8000 -p 8000:8000"]
