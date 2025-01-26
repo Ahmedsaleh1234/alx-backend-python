@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Deploy the blue version
+echo "Deploying the blue version..."
+kubectl apply -f blue_deployment.yaml
+
+# Deploy the green version
+echo "Deploying the green version..."
+kubectl apply -f green_deployment.yaml
+
+# Verify that both versions are running
+echo "Verifying the deployments..."
+kubectl get pods
+
+# Check logs for errors in the new version
+echo "Checking logs for the green version..."
+kubectl logs -l app=django,version=green
