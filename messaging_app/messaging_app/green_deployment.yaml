@@ -1,0 +1,22 @@
+# green_deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: django
+      version: green
+  template:
+    metadata:
+      labels:
+        app: django
+        version: green
+    spec:
+      containers:
+      - name: django-app
+        image: your-dockerhub-username/django-messaging-app:new-version
+        ports:
+        - containerPort: 8000
