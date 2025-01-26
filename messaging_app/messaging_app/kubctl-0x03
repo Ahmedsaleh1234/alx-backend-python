@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Apply the updated deployment file and trigger a rolling update
+echo "Applying the updated blue deployment file..."
+kubectl apply -f blue_deployment.yaml
+
+# Monitor the update progress
+echo "Monitoring the rolling update progress..."
+kubectl rollout status deployment django-blue
+
+# Test if the app experiences any downtime or disruption by continuously sending requests
+echo "Testing the application for downtime or disruption..."
+for i in {1..30}
+do
+  curl -s -o /dev/null -w "%{http_code}\n" http://<your-django-app-service>:8000 || echo "Request failed"
+  sleep 1
+done
+
+# Verify the rolling update is complete by checking the current pods
+echo "Verifying the rolling update is complete..."
+kubectl get pods
