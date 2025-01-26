@@ -1,29 +1,25 @@
 pipeline {
     agent any
 
-    environment {
-        // Ensure you add the required environment variables if needed
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'your-credentials-id', url: 'https://github.com/your-username/your-repository.git'
+                git branch: 'main', credentialsId: 'your-credentials-id', url: 'https://github.com/your-username/messaging_app.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'pip3 install -r messaging_app/requirements.txt'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest --junitxml=report.xml'
+                sh 'pytest --junitxml=messaging_app/report.xml'
             }
         }
         stage('Generate Report') {
             steps {
-                junit 'report.xml'
+                junit 'messaging_app/report.xml'
             }
         }
     }
